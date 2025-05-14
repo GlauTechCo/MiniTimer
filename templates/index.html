@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -14,6 +13,17 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            transition: background-color 0.5s;
+        }
+
+        body.alert {
+            animation: flashRed 1s infinite;
+        }
+
+        @keyframes flashRed {
+            0% { background-color: #ffebee; }
+            50% { background-color: #f44336; }
+            100% { background-color: #ffebee; }
         }
 
         h1 {
@@ -85,6 +95,7 @@
                     updateTimerDisplay(data.minutes, data.seconds);
                     if (data.minutes === 0 && data.seconds === 0) {
                         clearInterval(intervalId);
+                        document.body.classList.add('alert');
                     }
                 });
         }
@@ -105,6 +116,7 @@
                     clearInterval(intervalId);
                     intervalId = null;
                     updateTimerDisplay(15, 0);
+                    document.body.classList.remove('alert');
                 });
         }
     </script>
