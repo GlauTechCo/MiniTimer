@@ -133,6 +133,23 @@
                     document.getElementById('alert-popup').style.display = 'none';
                 });
         }
+
+                    // ESC tuşuna basınca popup'u kapat
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && hasAlerted) {
+                    document.getElementById('alert-popup').style.display = 'none';
+                    hasAlerted = false;
+                }
+            });
+            
+            // Popup'a tıklayınca kapat
+            document.getElementById('alert-popup').addEventListener('click', function () {
+                if (hasAlerted) {
+                    this.style.display = 'none';
+                    hasAlerted = false;
+                }
+            });
+
     </script>
 </body>
 </html>
