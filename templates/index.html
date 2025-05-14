@@ -81,6 +81,7 @@
 
     <script>
         let intervalId = null;
+        let hasAlerted = false;
 
         function updateTimerDisplay(minutes, seconds) {
             const m = String(minutes).padStart(2, '0');
@@ -94,8 +95,11 @@
                 .then(data => {
                     updateTimerDisplay(data.minutes, data.seconds);
                     if (data.minutes === 0 && data.seconds === 0) {
+                        if (!hasAlerted) {
+                            document.body.classList.add('alert');
+                            hasAlerted = true;
+                        }
                         clearInterval(intervalId);
-                        document.body.classList.add('alert');
                     }
                 });
         }
@@ -115,6 +119,7 @@
                 .then(() => {
                     clearInterval(intervalId);
                     intervalId = null;
+                    hasAlerted = false;
                     updateTimerDisplay(15, 0);
                     document.body.classList.remove('alert');
                 });
