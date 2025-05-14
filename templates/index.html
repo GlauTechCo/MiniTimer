@@ -13,17 +13,7 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            transition: background-color 0.5s;
-        }
-
-        body.alert {
-            animation: flashRed 1s infinite;
-        }
-
-        @keyframes flashRed {
-            0% { background-color: #ffebee; }
-            50% { background-color: #f44336; }
-            100% { background-color: #ffebee; }
+            overflow: hidden;
         }
 
         h1 {
@@ -71,6 +61,24 @@
         .reset-btn:hover {
             background-color: #c62828;
         }
+
+        #alert-popup {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(255, 0, 0, 0.9);
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            text-align: center;
+            padding: 40px;
+        }
     </style>
 </head>
 <body>
@@ -78,6 +86,8 @@
     <div id="timer">15:00</div>
     <button class="btn start-btn" onclick="startTimer()">Başlat</button>
     <button class="btn reset-btn" onclick="resetTimer()">Sıfırla</button>
+
+    <div id="alert-popup">MOLA SÜRESİ DOLDU, EĞİTİM ZAMANI!</div>
 
     <script>
         let intervalId = null;
@@ -96,7 +106,7 @@
                     updateTimerDisplay(data.minutes, data.seconds);
                     if (data.minutes === 0 && data.seconds === 0) {
                         if (!hasAlerted) {
-                            document.body.classList.add('alert');
+                            document.getElementById('alert-popup').style.display = 'flex';
                             hasAlerted = true;
                         }
                         clearInterval(intervalId);
@@ -121,7 +131,7 @@
                     intervalId = null;
                     hasAlerted = false;
                     updateTimerDisplay(15, 0);
-                    document.body.classList.remove('alert');
+                    document.getElementById('alert-popup').style.display = 'none';
                 });
         }
     </script>
