@@ -63,7 +63,7 @@
         }
 
         #alert-popup {
-            display: none; /* Sadece bu satır bırakılmalı */
+            display: none;
             position: fixed;
             top: 0; left: 0;
             width: 100vw;
@@ -87,6 +87,7 @@
     <button class="btn reset-btn" onclick="resetTimer()">Sıfırla</button>
 
     <div id="alert-popup">MOLA SÜRESİ DOLDU, EĞİTİM ZAMANI!</div>
+    <audio id="alarm-sound" src="alarm.wav" preload="auto"></audio>
 
     <script>
         let intervalId = null;
@@ -106,6 +107,7 @@
                     if (data.minutes === 0 && data.seconds === 0) {
                         if (!hasAlerted) {
                             document.getElementById('alert-popup').style.display = 'flex';
+                            document.getElementById('alarm-sound').play();
                             hasAlerted = true;
                         }
                         clearInterval(intervalId);
@@ -131,25 +133,31 @@
                     hasAlerted = false;
                     updateTimerDisplay(15, 0);
                     document.getElementById('alert-popup').style.display = 'none';
+                    const sound = document.getElementById('alarm-sound');
+                    sound.pause();
+                    sound.currentTime = 0;
                 });
         }
 
-                    // ESC tuşuna basınca popup'u kapat
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && hasAlerted) {
-                    document.getElementById('alert-popup').style.display = 'none';
-                    hasAlerted = false;
-                }
-            });
-            
-            // Popup'a tıklayınca kapat
-            document.getElementById('alert-popup').addEventListener('click', function () {
-                if (hasAlerted) {
-                    this.style.display = 'none';
-                    hasAlerted = false;
-                }
-            });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && hasAlerted) {
+                document.getElementById('alert-popup').style.display = 'none';
+                const sound = document.getElementById('alarm-sound');
+                sound.pause();
+                sound.currentTime = 0;
+                hasAlerted = false;
+            }
+        });
 
+        document.getElementById('alert-popup').addEventListener('click', function () {
+            if (hasAlerted) {
+                this.style.display = 'none';
+                const sound = document.getElementById('alarm-sound');
+                sound.pause();
+                sound.currentTime = 0;
+                hasAlerted = false;
+            }
+        });
     </script>
 </body>
 </html>
